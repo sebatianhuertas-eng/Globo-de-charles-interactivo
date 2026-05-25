@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ley de Charles - Globo Interactivo</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f4f7fb;
+        margin:0;
+        padding:20px;
+        text-align:center;
+    }
+
+    h1{
+        color:#1e3a5f;
+    }
+
+    .container{
+        max-width:900px;
+        margin:auto;
+        background:white;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .controls{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+        margin-top:25px;
+    }
+
+    .control-box{
+        background:#eef4ff;
+        padding:15px;
+        border-radius:10px;
+    }
+
+    label{
+        font-weight:bold;
+    }
+
+    input[type=range]{
+        width:100%;
+    }
+
+    .balloon-container{
+        margin-top:40px;
+        height:400px;
+        position:relative;
+    }
+
+    .balloon{
+        width:150px;
+        height:190px;
+        background:#ff5c8a;
+        border-radius:50%;
+        margin:auto;
+        position:relative;
+        transition:all 0.4s ease;
+    }
+
+    .balloon:after{
+        content:"";
+        position:absolute;
+        width:2px;
+        height:120px;
+        background:black;
+        left:50%;
+        top:190px;
+    }
+
+    .result{
+        margin-top:20px;
+        font-size:20px;
+        font-weight:bold;
+        color:#1e3a5f;
+    }
+
+    .formula{
+        margin-top:20px;
+        font-size:22px;
+        background:#eef4ff;
+        padding:15px;
+        border-radius:10px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Ley de Charles - Globo Interactivo</h1>
+
+<p>
+La Ley de Charles establece que el volumen de un gas aumenta cuando la temperatura aumenta,
+si la presión permanece constante.
+</p>
+
+<div class="formula">
+    V₁ / T₁ = V₂ / T₂
+</div>
+
+<div class="controls">
+
+    <div class="control-box">
+        <label>Volumen inicial V₁ (L)</label><br>
+        <input type="range" id="v1" min="1" max="10" value="5" step="0.1">
+        <span id="v1Value">5</span> L
+    </div>
+
+    <div class="control-box">
+        <label>Temperatura inicial T₁ (K)</label><br>
+        <input type="range" id="t1" min="100" max="500" value="300">
+        <span id="t1Value">300</span> K
+    </div>
+
+    <div class="control-box">
+        <label>Temperatura final T₂ (K)</label><br>
+        <input type="range" id="t2" min="100" max="500" value="400">
+        <span id="t2Value">400</span> K
+    </div>
+
+</div>
+
+<div class="result">
+    Volumen final V₂ = <span id="v2Result"></span> L
+</div>
+
+<div class="balloon-container">
+    <div class="balloon" id="balloon"></div>
+</div>
+
+</div>
+
+<script>
+
+const v1 = document.getElementById("v1");
+const t1 = document.getElementById("t1");
+const t2 = document.getElementById("t2");
+
+const v1Value = document.getElementById("v1Value");
+const t1Value = document.getElementById("t1Value");
+const t2Value = document.getElementById("t2Value");
+
+const v2Result = document.getElementById("v2Result");
+const balloon = document.getElementById("balloon");
+
+function actualizar(){
+
+    let V1 = parseFloat(v1.value);
+    let T1 = parseFloat(t1.value);
+    let T2 = parseFloat(t2.value);
+
+    let V2 = (V1 * T2) / T1;
+
+    v1Value.innerText = V1;
+    t1Value.innerText = T1;
+    t2Value.innerText = T2;
+
+    v2Result.innerText = V2.toFixed(2);
+
+    let escala = V2 / 5;
+
+    balloon.style.transform = `scale(${escala})`;
+}
+
+v1.addEventListener("input", actualizar);
+t1.addEventListener("input", actualizar);
+t2.addEventListener("input", actualizar);
+
+actualizar();
+
+</script>
+
+</body>
+</html>
